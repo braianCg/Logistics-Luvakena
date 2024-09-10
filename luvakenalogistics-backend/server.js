@@ -1,3 +1,4 @@
+
 const express = require('express');  
 const cors = require('cors');  
 const { Pool } = require('pg');  
@@ -8,32 +9,23 @@ const port = 3000;
 app.use(cors());  
 app.use(express.json());  
 
-// Configuración de la conexión a la base de datos PostgreSQL  
+// Configura la conexión a PostgreSQL  
 const pool = new Pool({  
-  user: 'tu_usuario',  
+  user: 'tu_usuario', // Reemplaza con tu usuario de PostgreSQL  
   host: 'localhost',  
   database: 'luvakenalogistics',  
-  password: 'tu_contraseña',  
+  password: 'tu_contraseña', // Reemplaza con tu contraseña  
   port: 5432,  
 });  
 
-// Endpoint para obtener clientes  
-app.get('/api/clients', async (req, res) => {  
+// Ruta para obtener datos de ejemplo  
+app.get('/api/data', async (req, res) => {  
   try {  
-    const result = await pool.query('SELECT * FROM clientes');  
-    res.json(result.rows);  
+    const resultado = await pool.query('SELECT * FROM tu_tabla');  
+    res.json(resultado.rows);  
   } catch (error) {  
-    res.status(500).json({ error: 'Error al obtener clientes' });  
-  }  
-});  
-
-// Endpoint para obtener servicios  
-app.get('/api/services', async (req, res) => {  
-  try {  
-    const result = await pool.query('SELECT * FROM servicios');  
-    res.json(result.rows);  
-  } catch (error) {  
-    res.status(500).json({ error: 'Error al obtener servicios' });  
+    console.error(error);  
+    res.status(500).send('Error al consultar la base de datos');  
   }  
 });  
 
